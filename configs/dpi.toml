@@ -1,0 +1,22 @@
+[app]
+log_level = "info"
+
+[dns]
+enabled = false
+config_path = "/etc/dnsmasq.d/dpi.conf"
+reload_command = ["systemctl", "reload", "dnsmasq"]
+blocked_domains = ["blocked.example", "rutracker.org", "google.com", "telegram.org"]
+
+[firewall]
+enabled = false
+family = "inet"
+table = "dpi"
+chain = "input"
+set_name = "blocked_ips"
+blocked_ips = ["203.0.113.10", "198.51.100.15", "8.8.8.8", "172.28.0.4"]
+
+[inspector]
+enabled = true
+queue_num = 0
+fail_open = true
+mode = "skeleton"

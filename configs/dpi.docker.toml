@@ -1,0 +1,23 @@
+[app]
+log_level = "debug"
+
+[dns]
+enabled = false
+config_path = "/etc/dnsmasq.d/dpi.conf"
+reload_command = ["sh", "-c", "if pidof dnsmasq >/dev/null 2>&1; then kill -HUP $(pidof dnsmasq); fi"]
+# Используется и для DNS-блокировки (dnsmasq), и для инспектора (HTTP Host + TLS SNI).
+blocked_domains = ["blocked.example", "rutracker.org", "google.com", "telegram.org"]
+
+[firewall]
+enabled = true
+family = "inet"
+table = "dpi"
+chain = "input"
+set_name = "blocked_ips"
+blocked_ips = ["203.0.113.10", "198.51.100.15", "8.8.8.8", "172.28.0.4"]
+
+[inspector]
+enabled = true
+queue_num = 0
+fail_open = true
+mode = "skeleton"
